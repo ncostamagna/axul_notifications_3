@@ -1,0 +1,13 @@
+{
+  "name": "axul_notifications",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "serverless": "^3.17.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^8.8.0"
+  }
+}

@@ -1,0 +1,48 @@
+name: aws
+runtime: go1.x
+lambdaHashingVersion: '20201221'
+stage: ${opt:stage,'local'}
+region: ${param:aws-region}
+environment: ${file(./environment/env.yml)}
+versionFunctions: ${param:aws-version-function}
+iam:
+  role:
+    name: ${param:environment}-${param:vertical}-${param:service}-${param:process}-role
+    managedPolicies:
+      - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      - 'arn:aws:iam::${aws:accountId}:policy/growth-readwrite-rds-offers'
+      - 'arn:aws:iam::${aws:accountId}:policy/growth-lambda-decrypt'
+      - 'arn:aws:iam::${aws:accountId}:policy/growth-readonly-sysman'
+      - 'arn:aws:iam::${aws:accountId}:policy/pg-lambda-vpc-attachment'
+    tags:
+      env: ${param:environment}
+      service: ${param:service}
+      process: ${param:process}
+deploymentPrefix: payments
+deploymentBucket:
+  name: ${param:environment}-${param:aws-bucket-name}
+  blockPublicAccess: true
+kmsKeyArn: ${param:aws-lambda-kms-key-arn}
+memorySize: ${param:aws-memory-size}
+logRetentionInDays: ${param:aws-log-retention}
+tracing: 
+  apiGateway: ${param:aws-tracing-apigateway}
+  lambda: ${param:aws-tracing-lambda}
+apiGateway:
+  apiKeys: 
+    - ${param:aws-api-key-name}
+vpc:
+  securityGroupIds:
+    - ${env:AWS_SG_ID, 'default-sg'}
+  subnetIds:
+    - ${env:AWS_SUBNET_1, 'default-snet1'}
+    - ${env:AWS_SUBNET_2, 'default-snet2'}
+    - ${env:AWS_SUBNET_3, 'default-snet3'}
+stackTags:
+  env: ${param:environment}
+  service: ${param:service}
+  process: ${param:process}
+tags:
+  env: ${param:environment}
+  service: ${param:service}
+  process: ${param:process}

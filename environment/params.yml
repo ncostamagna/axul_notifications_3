@@ -1,0 +1,40 @@
+default:
+  vertical: gbl
+  service: notifications
+  process: offer-sale
+  #aws
+  aws-bucket-name: gbl-axul-serverless
+
+  aws-api-key-name: ${param:environment}-axul
+  aws-memory-size: 256
+  aws-tracing-apigateway: false
+  aws-tracing-lambda: false
+  aws-version-function: false
+  aws-region: us-east-1
+  #lambda
+  db-host: ${env:DB_HOST}
+  db-port: ${env:DB_PORT}
+  db-name: ${env:DB_NAME}
+  db-user: ${env:DB_USER}
+  db-password: ${env:DB_PASSWORD}
+prod:
+  environment: prod
+  aws-log-retention: 180
+  datadog-enabled: true
+  sentry-enabled: true
+qa:
+  environment: qa
+  aws-log-retention: 30
+  datadog-enabled: true
+  sentry-enabled: true
+dev:
+  environment: dev
+  aws-log-retention: 7
+local:
+  environment: local
+  aws-log-retention: 7
+  db-host: localhost
+  db-port: 3306
+  db-name: wares
+  db-user: root
+  db-password: root
