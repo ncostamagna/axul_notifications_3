@@ -22,15 +22,11 @@ deploymentPrefix: payments
 deploymentBucket:
   name: ${param:environment}-${param:aws-bucket-name}
   blockPublicAccess: true
-kmsKeyArn: ${param:aws-lambda-kms-key-arn}
 memorySize: ${param:aws-memory-size}
 logRetentionInDays: ${param:aws-log-retention}
 tracing: 
   apiGateway: ${param:aws-tracing-apigateway}
   lambda: ${param:aws-tracing-lambda}
-apiGateway:
-  apiKeys: 
-    - ${param:aws-api-key-name}
 vpc:
   securityGroupIds:
     - ${env:AWS_SG_ID, 'default-sg'}

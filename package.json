@@ -1,11 +1,10 @@
 {
-  "name": "axul_notifications",
+  "name": "axul_notifications.git",
   "version": "1.0.0",
   "description": "",
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "serverless": "^3.17.0"
+    "serverless": "^3.17.0",
+    "serverless-prune-plugin": "^2.0.1"
   },
   "devDependencies": {
     "serverless-offline": "^8.8.0"

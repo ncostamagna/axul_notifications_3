@@ -1,12 +1,12 @@
 service: notifications
 frameworkVersion: '3.17.0'
+useDotenv: true
 
 params: ${file(./environment/params.yml)}
 
 provider: ${file(./environment/provider.yml)}
 
 plugins:
-    - serverless-plugin-typescript
     - serverless-offline
     - serverless-prune-plugin
 
@@ -14,7 +14,6 @@ custom:
     serverless-offline:
         host: 0.0.0.0
         httpPort: 3008
-    cors: ${file(./environment/cors.yml)}
     prune:
         automatic: true
         number: 3
@@ -22,40 +21,36 @@ custom:
 package:
     individually: true
     exclude:
-        - '.*/**'
-        - 'node_modules'
+      - ./.git/**
+      - ./.serverless/**
+      - ./node_modules/**
+      - ./pkg/**
+      - ./bootstrap/**
+      - ./cmd/**
+      - ./.dockers/**
+      - ./.githooks/**
+      - ./bin/**
 
 functions:
   notifications-create:
     description: Create a new notification
-    handler: bin/notifications-create
+    handler: bin/notification-create
     events:
       - http:
           path: /notifications
           method: post
           cors: true
-          private: true
-      - sns:
-          arn: ${env:SNS_CHECKOUT_COMPLETE_ARN}
-          topicName: ${env:SNS_CHECKOUT_COMPLETE_TOPIC}
     package:
-      include:
-        - ./bin/notifications-create
-    tags:
-        env: ${env:ENVIRONMENT}
-        service: notifications          
+      patterns:
+        - ./bin/notification-create
   notifications-getall:
     description:  Get all the products notifications  
-    handler: bin/notifications-create
+    handler: bin/notification-create
     events:
       - http:
           path: /notifications
           method: get
           cors: true
-          private: true
     package:
-      include:
-        - ./bin/enrollment-products-getall
-    tags:
-        env: ${env:ENVIRONMENT}
-        service: notifications
+      patterns:
+        - ./bin/notification-create
